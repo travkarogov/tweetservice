@@ -21,13 +21,4 @@ public class Tweet {
     private int profileId;
 
     private String message;
-
-//    @ManyToMany
-//    @JoinTable(
-//            name = "tweet_hashtag",
-//            joinColumns = @JoinColumn(name = "tweeter_id"),
-//            inverseJoinColumns = @JoinColumn(name = "hashtag_id")
-//    )
-//    @LazyCollection(LazyCollectionOption.FALSE)
-//    private List<Hashtag> hashtags;
 }

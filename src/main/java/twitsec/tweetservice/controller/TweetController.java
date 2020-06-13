@@ -7,7 +7,6 @@ import twitsec.tweetservice.entity.Tweet;
 import twitsec.tweetservice.repository.TweetRepository;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Optional;
 
 @RestController("TweetController")
@@ -20,7 +19,7 @@ public class TweetController {
     private final TweetRepository tweetRepository;
 
     @PostMapping("/")
-    public ResponseEntity<Tweet> tweet(@RequestBody Tweet tweet) throws URISyntaxException {
+    public ResponseEntity<Tweet> tweet(@RequestBody Tweet tweet) {
         Tweet createdTweet = tweetRepository.save(tweet);
 
         if(createdTweet == null){
