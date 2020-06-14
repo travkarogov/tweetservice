@@ -18,5 +18,5 @@ public class Hashtag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String hashtag;
+    private String tag;
 }

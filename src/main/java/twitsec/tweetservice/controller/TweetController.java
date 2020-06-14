@@ -22,18 +22,17 @@ public class TweetController {
     public ResponseEntity<Tweet> tweet(@RequestBody Tweet tweet) {
         Tweet createdTweet = tweetRepository.save(tweet);
 
-        if(createdTweet == null){
-            return ResponseEntity.notFound().build();
-        }
-        else{
+        if(createdTweet.getProfileId() == tweet.getProfileId()){
             URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(createdTweet.getId()).toUri();
             return ResponseEntity.created(uri).body(createdTweet);
+        }
+        else{
+            return ResponseEntity.notFound().build();
         }
     }
 
     @GetMapping("{/id}")
     public Optional<Tweet> findById(@PathVariable("id") int id){
-        var tweet = tweetRepository.findById(id);
-        return tweet;
+        return tweetRepository.findById(id);
     }
 }
