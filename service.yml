@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: gke-tweet-service
+  name: gke-tweetservice
 spec:
   ports:
     - name: "49501"
       port: 49501
       targetPort: 49501
   selector:
-    app: tweet-service
+    app: tweetservice
