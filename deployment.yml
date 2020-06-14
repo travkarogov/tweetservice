@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: tweet-service
-          image: eu.gcr.io/fontys-276211/tweet-service
+          image: eu.gcr.io/s62-1-278920/tweet-service
           ports:
             - containerPort: 59501
           resources:
