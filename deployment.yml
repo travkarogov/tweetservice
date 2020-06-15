@@ -1,0 +1,26 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: tweet
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        app: tweet
+    spec:
+      containers:
+        - name: tweet
+          image: eu.gcr.io/s62-1-278920/tweet
+          ports:
+            - containerPort: 49501
+          resources:
+            requests:
+              cpu: 100m
+            limits:
+              cpu: 100m

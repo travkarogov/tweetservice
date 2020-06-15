@@ -1,10 +1,13 @@
 package twitsec.tweetservice.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import twitsec.tweetservice.entity.Tweet;
 import twitsec.tweetservice.repository.TweetRepository;
+
 
 import java.net.URI;
 import java.util.Optional;
@@ -34,5 +37,10 @@ public class TweetController {
     @GetMapping("{/id}")
     public Optional<Tweet> findById(@PathVariable("id") int id){
         return tweetRepository.findById(id);
+    }
+
+    @GetMapping
+    public Page<Tweet> findAll(Pageable pageable){
+        return tweetRepository.findAll(pageable);
     }
 }

@@ -8,7 +8,7 @@ spring:
       ddl-auto: update
 
 server:
-  port: 59501
+  port: 49501
 
 springdoc:
   swagger-ui:
