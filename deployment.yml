@@ -1,7 +1,7 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: tweetservice
+  name: tweet
 spec:
   replicas: 1
   strategy:
@@ -12,11 +12,11 @@ spec:
   template:
     metadata:
       labels:
-        app: tweetservice
+        app: tweet
     spec:
       containers:
-        - name: tweetservice
-          image: eu.gcr.io/s62-1-278920/tweetservice
+        - name: tweet
+          image: eu.gcr.io/s62-1-278920/tweet
           ports:
             - containerPort: 49501
           resources:

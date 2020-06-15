@@ -1,5 +1,7 @@
 package twitsec.tweetservice.controller;
 
+import org.apache.coyote.Response;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -35,5 +37,10 @@ public class TweetController {
     public Optional<Tweet> findById(@PathVariable("id") int id){
         var tweet = tweetRepository.findById(id);
         return tweet;
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<Object> healthy(){
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

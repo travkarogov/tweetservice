@@ -8,4 +8,4 @@ spec:
       port: 49501
       targetPort: 49501
   selector:
-    app: tweetservice
+    app: tweet
