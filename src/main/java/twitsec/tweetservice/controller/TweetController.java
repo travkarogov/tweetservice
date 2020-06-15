@@ -1,12 +1,13 @@
 package twitsec.tweetservice.controller;
 
-import org.apache.coyote.Response;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import twitsec.tweetservice.entity.Tweet;
 import twitsec.tweetservice.repository.TweetRepository;
+
 
 import java.net.URI;
 import java.util.Optional;
@@ -39,8 +40,8 @@ public class TweetController {
         return tweet;
     }
 
-    @GetMapping("/")
-    public ResponseEntity<Object> healthy(){
-        return ResponseEntity.status(HttpStatus.OK).build();
+    @GetMapping
+    public Page<Tweet> findAll(Pageable pageable){
+        return tweetRepository.findAll(pageable);
     }
 }
