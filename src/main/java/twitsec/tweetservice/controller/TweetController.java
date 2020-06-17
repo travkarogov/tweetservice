@@ -1,10 +1,13 @@
 package twitsec.tweetservice.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import twitsec.tweetservice.controller.exception.NotAuthorizedException;
 import twitsec.tweetservice.entity.Tweet;
 import twitsec.tweetservice.repository.TweetRepository;
+import twitsec.tweetservice.service.JwtTokenComponent;
 
 import java.net.URI;
 import java.util.Optional;
@@ -12,27 +15,28 @@ import java.util.Optional;
 @RestController("TweetController")
 @RequestMapping("/tweets")
 @CrossOrigin("*")
+@RequiredArgsConstructor
 public class TweetController {
 
-    public TweetController(TweetRepository tweetRepository){ this.tweetRepository = tweetRepository; }
-
     private final TweetRepository tweetRepository;
+    private final JwtTokenComponent tokenComponent;
 
-    @PostMapping("/")
-    public ResponseEntity<Tweet> tweet(@RequestBody Tweet tweet) {
-        Tweet createdTweet = tweetRepository.save(tweet);
+    @PostMapping
+    public ResponseEntity<Tweet> tweet(@RequestHeader("Authorization") final String token, @RequestBody Tweet tweet) {
+        if(tokenComponent.validateJwt(token)){
+            tweet.setProfileId(tokenComponent.getProfileIdFromToken(token));
 
-        if(createdTweet.getProfileId() == tweet.getProfileId()){
+            Tweet createdTweet = tweetRepository.save(tweet);
+
             URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(createdTweet.getId()).toUri();
             return ResponseEntity.created(uri).body(createdTweet);
         }
-        else{
-            return ResponseEntity.notFound().build();
-        }
+
+        throw new NotAuthorizedException("Not authorized to perform this action");
     }
 
-    @GetMapping("{/id}")
-    public Optional<Tweet> findById(@PathVariable("id") int id){
-        return tweetRepository.findById(id);
+    @GetMapping("/{id}")
+    public Optional<Tweet> findById(@PathVariable("id") final int profileId){
+        return tweetRepository.findById(profileId);
     }
 }
