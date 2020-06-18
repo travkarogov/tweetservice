@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import io.jsonwebtoken.Jwts;
 import org.springframework.stereotype.Component;
 import twitsec.tweetservice.model.Role;
+import twitsec.tweetservice.service.exception.TokenInvalidException;
 
 import javax.xml.bind.DatatypeConverter;
 
@@ -17,7 +18,7 @@ public class JwtTokenComponent {
             Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(SECRET_KEY)).parseClaimsJws(jwt.replace("Bearer", "").trim()).getBody();
             return true;
         }catch(Exception ex){
-            return false;
+            throw new TokenInvalidException("Provided token is invalid");
         }
     }
 

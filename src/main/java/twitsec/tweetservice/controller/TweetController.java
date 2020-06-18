@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import twitsec.tweetservice.controller.exception.NotAuthorizedException;
 import twitsec.tweetservice.entity.Tweet;
+import twitsec.tweetservice.model.Role;
 import twitsec.tweetservice.repository.TweetRepository;
 import twitsec.tweetservice.service.JwtTokenComponent;
 
@@ -23,7 +24,7 @@ public class TweetController {
 
     @PostMapping
     public ResponseEntity<Tweet> tweet(@RequestHeader("Authorization") final String token, @RequestBody Tweet tweet) {
-        if(tokenComponent.validateJwt(token)){
+        if(tokenComponent.validateJwt(token) && tokenComponent.getRoleFromToken(token) == Role.USER){
             tweet.setProfileId(tokenComponent.getProfileIdFromToken(token));
 
             Tweet createdTweet = tweetRepository.save(tweet);
@@ -36,7 +37,7 @@ public class TweetController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Tweet> findById(@PathVariable("id") final int profileId){
-        return tweetRepository.findById(profileId);
+    public Optional<Tweet> findById(@PathVariable("id") final int id){
+        return tweetRepository.findById(id);
     }
 }

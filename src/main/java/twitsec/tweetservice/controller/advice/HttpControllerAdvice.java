@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import twitsec.tweetservice.controller.exception.NotAuthorizedException;
+import twitsec.tweetservice.service.exception.TokenInvalidException;
 
 @Slf4j
 @ControllerAdvice
@@ -19,6 +20,12 @@ public class HttpControllerAdvice {
     @ExceptionHandler(NotAuthorizedException.class)
     public ResponseEntity<HttpStatus> notAuthorizedException(final NotAuthorizedException e){
         log.error(String.format("NotAuthorizedException, %s at: %s", e.getMessage(), e.getStackTrace()[0]));
+        return ResponseEntity.status(UNAUTHORIZED).body(UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(TokenInvalidException.class)
+    public ResponseEntity<HttpStatus> tokenInvalidException(final TokenInvalidException e){
+        log.error(String.format("TokenInvalidException, %s at: %s", e.getMessage(), e.getStackTrace()[0]));
         return ResponseEntity.status(UNAUTHORIZED).body(UNAUTHORIZED);
     }
 }
