@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import twitsec.tweetservice.controller.exception.NoTokenProvidedException;
 import twitsec.tweetservice.controller.exception.NotAuthorizedException;
 import twitsec.tweetservice.entity.Tweet;
 import twitsec.tweetservice.model.Role;
@@ -24,6 +25,8 @@ public class TweetController {
 
     @PostMapping
     public ResponseEntity<Tweet> tweet(@RequestHeader("Authorization") final String token, @RequestBody Tweet tweet) {
+        if(token.isEmpty()) throw new NoTokenProvidedException("Token is empty");
+
         if(tokenComponent.validateJwt(token) && tokenComponent.getRoleFromToken(token) == Role.USER){
             tweet.setProfileId(tokenComponent.getProfileIdFromToken(token));
 

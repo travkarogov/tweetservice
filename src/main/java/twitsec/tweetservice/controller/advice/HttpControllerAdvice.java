@@ -15,7 +15,14 @@ import twitsec.tweetservice.service.exception.TokenInvalidException;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class HttpControllerAdvice {
 
+    private static final HttpStatus BAD_REQUEST = HttpStatus.BAD_REQUEST;
     private static final HttpStatus UNAUTHORIZED = HttpStatus.UNAUTHORIZED;
+
+    @ExceptionHandler(NoTokenProvidedException.class)
+    public ResponseEntity<HttpStatus> noTokenProvidedException(final NoTokenProvidedException e){
+        log.error(String.format("NoTokenProvidedException, %s at: %s", e.getMessage(), e.getStackTrace()[0]));
+        return ResponseEntity.status(BAD_REQUEST).body(BAD_REQUEST);
+    }
 
     @ExceptionHandler(NotAuthorizedException.class)
     public ResponseEntity<HttpStatus> notAuthorizedException(final NotAuthorizedException e){
