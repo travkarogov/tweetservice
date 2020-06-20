@@ -15,6 +15,8 @@ public interface TweetRepository extends PagingAndSortingRepository<Tweet, Integ
     @RestResource(path = "/byProfileId")
     Page<Tweet> getTweetsByProfileId(Pageable pageable, int profileId);
 
+    void deleteAllByProfileId(int profileId);
+
     @Override
     @RestResource(exported = false)
     Page<Tweet> findAll(Pageable pageable);
